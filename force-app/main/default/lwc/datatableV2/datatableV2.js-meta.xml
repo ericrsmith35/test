@@ -53,6 +53,7 @@
                 The default (False) will display Checkboxes and allow multiple records to be selected."/>
             <property name="suppressBottomBar" label="Suppress Cancel/Save Buttons during Edit Mode?" type="Boolean" default="false" role="inputOnly" description="Cancel/Save buttons will appear by default at the very bottom of the table once a field is edited.  
                 When hiding these buttons, field updates will be applied as soon as the user Tabs out or selects a different field."/>
+            <property name="suppressNameFieldLink" label="Suppress the Link on the Object's 'Name' Field" type="Boolean" default="false" role="inputOnly" description="Suppress the default behavior of displaying the SObject's 'Name' field as a link to the record"/>
             <property name="tableHeight" label="Table Height" type="String" role="inputOnly" description="CSS specification for the height of the datatable (Examples: 30rem, calc(50vh - 100px)  If you leave this blank, the datatable will expand to display all records.)"/>
             <property name="tableBorder" label="Table Border" type="Boolean" default="true" role="inputOnly" description="Display a border around the datatable."/>
         </targetConfig>
