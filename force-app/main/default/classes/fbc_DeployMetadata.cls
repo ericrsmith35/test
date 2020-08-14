@@ -102,7 +102,7 @@ public with sharing class fbc_DeployMetadata {
                         '<members>' + className + '</members>' +
                         '<name>' + objectType +'</name>' + 
                     '</types>' + 
-                    '<version>48.0</version>' + 
+                    '<version>49.0</version>' + 
                 '</Package>';		
         }
     
@@ -110,7 +110,7 @@ public with sharing class fbc_DeployMetadata {
         {
             String boilerplate =  '<?xml version="1.0" encoding="UTF-8"?>' +
             '<Flow xmlns="http://soap.sforce.com/2006/04/metadata">' +
-                '<apiVersion>48.0</apiVersion>' + 
+                '<apiVersion>49.0</apiVersion>' + 
                 '<status>Active</status>' +
             '</Flow>';
 
