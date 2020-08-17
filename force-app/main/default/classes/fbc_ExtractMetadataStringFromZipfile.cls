@@ -41,6 +41,7 @@ public with sharing class fbc_ExtractMetadataStringFromZipfile {
         //currently only set up to handle a single file
         Blob fileData = curZippex.getFile(filenamesList[0]);
         System.debug ('filename: ' + filenamesList[0]);
+        System.debug ('filedata: [' + fileData.toString() + ']');
 
         return fileData.toString();
 
@@ -53,7 +54,7 @@ public with sharing class fbc_ExtractMetadataStringFromZipfile {
         processedString = processedString.replace('<', '&lt;');
         System.debug ('replace lt: ' + processedString);
         processedString = processedString.replace('>', '&gt;');
-        System.debug ('replace gt: ' + processedString);
+        System.debug ('replace gt: [' + processedString + ']');
 
         return processedString;
 
