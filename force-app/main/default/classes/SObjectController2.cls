@@ -73,7 +73,7 @@ public with sharing class SObjectController2 {
             String objName = records[0].getSObjectType().getDescribe().getName();
             curRR = getColumnData(curRR, fieldNames, objName);
             curRR = getLookupData(curRR, records, curRR.lookupFieldList, objName);
-            curRR = getRowData(curRR, records, curRR.dataMap, curRR.objNameFieldMap, curRR.lookupFieldList, curRR.percentFieldList, objName);
+            curRR = getRowData(curRR, records, curRR.dataMap, curRR.objNameFieldMap, curRR.lookupFieldList, curRR.percentFieldList, objName, curRR.noEditFieldList);
             curRR.objectName = objName;
         }
         System.Debug('curRR - '+JSON.serializePretty(curRR));
@@ -113,6 +113,8 @@ public with sharing class SObjectController2 {
                 + '", "scale" : "' + dfr.getScale() 
                 + '"}';
 
+            if (!dfr.isUpdateable() || dfr.isCalculated()) noEditFields.add(fieldName);  // Check for Formula and Read Only fields
+
             switch on dfr.getType().name() {
                 when 'REFERENCE' {
                     if (dfr.isUpdateable()) {       // Only works with Master-Detail fields that are reparentable
@@ -120,13 +122,19 @@ public with sharing class SObjectController2 {
                     }
                 }
                 when 'PERCENT' {
-                    percentFields.add(fieldName);
+                    if (!noEditFields.contains(fieldname)) {
+                        percentFields.add(fieldName);
+                    }
                 }
                 when 'TEXTAREA' {
-                    if (!dfr.isSortable()) noEditFields.add(fieldName); // Long Text Area and Rich Text Area                   
+                    if (!dfr.isSortable() && !noEditFields.contains(fieldname)) {
+                        noEditFields.add(fieldName); // Long Text Area and Rich Text Area   
+                    }                
                 }
                 when 'ENCRYPTEDSTRING', 'PICKLIST', 'MULTIPICKLIST' {
-                    noEditFields.add(fieldName);
+                    if (!noEditFields.contains(fieldname)) {
+                        noEditFields.add(fieldName);
+                    }
                 }
                 when 'CURRENCY', 'DECIMAL', 'DOUBLE', 'INTEGER', 'LONG' {
                     // *** create scale attrib in datatableColumnFieldDescriptor and pass the getScale() values in that way. ***
@@ -190,7 +198,7 @@ public with sharing class SObjectController2 {
     }
 
     @AuraEnabled
-    public static ReturnResults getRowData(ReturnResults curRR, List<SObject> records, Map<String, Map<Id, SObject>> dataMap, Map<String, String> objNameFieldMap, List<String> lookupFields, List<String> percentFields, String objName) {
+    public static ReturnResults getRowData(ReturnResults curRR, List<SObject> records, Map<String, Map<Id, SObject>> dataMap, Map<String, String> objNameFieldMap, List<String> lookupFields, List<String> percentFields, String objName, List<String> noEditFields) {
         // Update object to include values for the "Name" field referenced by Lookup fields
         String lookupFieldData = '';
         Map<String,Boolean> firstRecord = new Map<String,Boolean>();
@@ -202,7 +210,7 @@ public with sharing class SObjectController2 {
             
             // Divide percent field values by 100
             for(String pf : percentFields) {
-                if(so.get(pf) != null) {
+                if(so.get(pf) != null && !noEditFields.contains(pf)) {
                     so.put(pf, double.valueOf(so.get(pf))/100);
                 }
             }
