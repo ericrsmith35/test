@@ -19,7 +19,7 @@
         <inputParameters>
             <name>fileContent</name>
             <value>
-                <elementReference>vExtractedFlowString</elementReference>
+                <elementReference>RetrieveFlow.extractedMetadataString</elementReference>
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -435,10 +435,7 @@ MID({!FlowFileUpload.fileNames},2,LEN({!FlowFileUpload.fileNames})-16))</express
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>vExtractedFlowString</assignToReference>
-                <name>extractedMetadataString</name>
-            </outputParameters>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <showFooter>false</showFooter>
         <showHeader>true</showHeader>
@@ -450,7 +447,7 @@ MID({!FlowFileUpload.fileNames},2,LEN({!FlowFileUpload.fileNames})-16))</express
             <targetReference>Import_Export_Flows</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <textTemplates>
         <name>ttExportSuccess</name>
         <text>&lt;p&gt;Successfully saved the Flow file as {!fFileName}&lt;/p&gt;</text>
@@ -472,13 +469,6 @@ MID({!FlowFileUpload.fileNames},2,LEN({!FlowFileUpload.fileNames})-16))</express
     </variables>
     <variables>
         <name>vDocumentId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>vExtractedFlowString</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
