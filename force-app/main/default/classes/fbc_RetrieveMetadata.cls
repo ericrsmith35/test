@@ -29,6 +29,10 @@
  **/
 
  /**
+ * Eric Smith - 9/3/20
+ * 
+ * 		Escaped {} characters in the Extracted File String so it could be processed in a Flow
+ * 
  * Eric Smith - August 2020
  * 
  *      Extract a single metadata file from the Zip file returned by the Retrieve
@@ -168,7 +172,12 @@ RetrieveResult retrieveResult = metadataConnection.checkRetrieveStatus(response.
         System.debug ('filename: ' + filenamesList[0]);
 		System.debug ('filedata: [' + fileData.toString() + ']');
 
-		return fileData.toString();
+		// Escape {} characters so the String can be processed in a Flow
+		String escFileData = fileData.toString();
+		escFileData = escFileData.replace('{', '&lbrace;');
+		escFileData = escFileData.replace('}', '&rbrace;');
+		
+		return escFileData;
 
     }
 
